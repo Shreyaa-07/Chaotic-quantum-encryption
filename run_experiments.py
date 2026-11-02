@@ -17,6 +17,14 @@ Experiments:
 
 import sys
 import os
+
+if sys.stdout.encoding != 'utf-8':
+    try:
+        sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+        sys.stderr.reconfigure(encoding='utf-8', errors='replace')
+    except Exception:
+        pass
+
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import numpy as np
@@ -541,10 +549,10 @@ def main():
 
     # Use default key from the paper
     key = EncryptionKey()
-    print(f"\nUsing encryption key with De Jong parameters:")
-    print(f"  Phase 1: a={key.dj1_a}, b={key.dj1_b}, c={key.dj1_c}, d={key.dj1_d}")
-    print(f"  Phase 2: a={key.dj2_a}, b={key.dj2_b}, c={key.dj2_c}, d={key.dj2_d}")
-    print(f"  VdP: h={key.vdp_h}, mu={key.vdp_mu}")
+    print(f"\nUsing encryption key:")
+    print(f"  2D-LASM PM1_1: x0={key.lasm1_x0}, y0={key.lasm1_y0}, mu={key.lasm1_mu}")
+    print(f"  2D-LASM PM2_2: x0={key.lasm2_x0}, y0={key.lasm2_y0}, mu={key.lasm2_mu}")
+    print(f"  2D-SLMM PM1_2: x0={key.slmm_x0}, y0={key.slmm_y0}, alpha={key.slmm_alpha}, beta={key.slmm_beta}")
 
     # Run experiments
     experiment_1_visual_analysis(images, key)

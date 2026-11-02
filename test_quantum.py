@@ -87,8 +87,8 @@ for label, key in [("Circuit A", "circuit_a"), ("Circuit B", "circuit_b")]:
     assert depth_ok, f"T2.1 FAILED: {label} depth wrong!"
 print("  [PASSED]")
 
-# [T2.2] Quantum circuit is self-consistent: A ∘ A^{-1} = I
-print("\n[T2.2] Verifying A ∘ A^{-1} = Identity (statevector round-trip)...")
+# [T2.2] Quantum circuit is self-consistent: A o A^{-1} = I
+print("\n[T2.2] Verifying A o A^{-1} = Identity (statevector round-trip)...")
 for pixel_val in [0, 1, 100, 127, 200, 255]:
     qc = QuantumCircuit(8)
     for bit_idx in range(8):

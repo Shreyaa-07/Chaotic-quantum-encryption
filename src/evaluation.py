@@ -262,16 +262,18 @@ def key_sensitivity_analysis(original: np.ndarray,
     # Encrypt with original key
     cipher, _, _ = encrypt_func(original, key)
 
-    # Create slightly modified key
+    # Create slightly modified key (perturb the LASM initial condition)
     modified_key = EncryptionKey(
-        dj1_a=key.dj1_a + delta,
-        dj1_b=key.dj1_b, dj1_c=key.dj1_c, dj1_d=key.dj1_d,
-        dj1_x0=key.dj1_x0, dj1_y0=key.dj1_y0,
-        dj2_a=key.dj2_a, dj2_b=key.dj2_b,
-        dj2_c=key.dj2_c, dj2_d=key.dj2_d,
-        dj2_x0=key.dj2_x0, dj2_y0=key.dj2_y0,
-        vdp_h=key.vdp_h, vdp_mu=key.vdp_mu,
-        vdp_x0=key.vdp_x0, vdp_v0=key.vdp_v0,
+        lasm1_x0=key.lasm1_x0 + delta,
+        lasm1_y0=key.lasm1_y0,
+        lasm1_mu=key.lasm1_mu,
+        lasm2_x0=key.lasm2_x0,
+        lasm2_y0=key.lasm2_y0,
+        lasm2_mu=key.lasm2_mu,
+        slmm_x0=key.slmm_x0,
+        slmm_y0=key.slmm_y0,
+        slmm_alpha=key.slmm_alpha,
+        slmm_beta=key.slmm_beta,
         block_size=key.block_size,
     )
 
