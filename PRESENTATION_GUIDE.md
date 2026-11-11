@@ -132,3 +132,4 @@ The two-pass bidirectional feedback diffusion in Step 4 (PM2_2). Unlike static X
    python demo.py
    ```
    Runs the end-to-end pipeline in 2 seconds and generates `demo_output/` with full annotated plots.
+
