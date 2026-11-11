@@ -1,6 +1,6 @@
 """
-Quantum CNOT Cascade Circuits for PM1_1 — Qiskit Implementation (Task T2)
-==========================================================================
+Quantum CNOT Cascade Circuits for PM1_1 — Qiskit Implementation
+================================================================
 Implements the two quantum CNOT cascade circuits (Circuit A and Circuit B)
 described in Section IV-B of the paper (Eqs. 18-19, Fig. 11).
 

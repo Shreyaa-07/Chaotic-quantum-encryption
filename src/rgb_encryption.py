@@ -1,5 +1,5 @@
 """
-MCQI RGB Color Image Extension — Task T6
+MCQI RGB Color Image Encryption Extension
 ==========================================
 Extends the grayscale encryption pipeline to RGB color images using the
 Multi-Channel Quantum Image (MCQI) representation concept.

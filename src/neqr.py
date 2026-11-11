@@ -1,6 +1,6 @@
 """
-NEQR Quantum Image Representation — Qiskit Implementation (Task T1)
-=====================================================================
+NEQR Quantum Image Representation — Qiskit Circuit Implementation
+===================================================================
 Implements the Novel Enhanced Quantum Image Representation (NEQR) described
 in Section III of the paper (Fig. 4).
 

@@ -1,6 +1,6 @@
 """
-Quantum SWAP Network for Geometric Permutation — Task T3
-==========================================================
+Quantum SWAP Network for Geometric Permutation (PM2_1)
+=======================================================
 Implements the geometric coordinate permutation (PM2_1) as a quantum SWAP
 network operating on the position qubits of an NEQR-encoded image.
 

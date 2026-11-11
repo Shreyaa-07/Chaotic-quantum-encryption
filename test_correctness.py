@@ -1,7 +1,7 @@
 """
-Correctness tests for the full encryption/decryption pipeline.
-Tests: individual module roundtrips, full pipeline, key sensitivity.
-Updated to use the paper-correct 2D-LASM / 2D-SLMM chaotic maps (T0 fix).
+Comprehensive correctness tests for the full encryption/decryption pipeline.
+Tests: chaotic generator validity, individual module roundtrips, full pipeline,
+and key sensitivity.
 """
 
 import sys
@@ -81,7 +81,7 @@ key = EncryptionKey()
 qkey = generate_qubit_key_lasm(key.lasm1_x0, key.lasm1_y0, key.lasm1_mu, 16, 16)
 skey = generate_selection_key_slmm(key.slmm_x0, key.slmm_y0,
                                     key.slmm_alpha, key.slmm_beta, 16, 16)
-dmat = generate_diffusion_keystream_lasm(key.lasm2_x0, key.lasm2_y0, key.lasm2_mu, 16, 16)
+dmat, dmat_bwd = generate_diffusion_keystream_lasm(key.lasm2_x0, key.lasm2_y0, key.lasm2_mu, 16, 16)
 
 # [TEST 1] Qubit transform
 enc1 = qubit_transform_encrypt(test_img, qkey)
@@ -108,8 +108,8 @@ print(f"[TEST 3] Selective Perfect Shuffle (PM1_2):    {'PASSED' if ok3 else 'FA
 assert ok3
 
 # [TEST 4] Seed diffusion
-enc4 = seed_diffusion_encrypt(test_img, dmat)
-dec4 = seed_diffusion_decrypt(enc4, dmat)
+enc4 = seed_diffusion_encrypt(test_img, dmat, dmat_bwd)
+dec4 = seed_diffusion_decrypt(enc4, dmat, dmat_bwd)
 ok4 = np.array_equal(test_img, dec4)
 print(f"[TEST 4] Seed Diffusion (PM2_2):               {'PASSED' if ok4 else 'FAILED'}"
       f"  (PSNR = {psnr_label(test_img, dec4)}, MSE = {mse(test_img, dec4):.4f})")

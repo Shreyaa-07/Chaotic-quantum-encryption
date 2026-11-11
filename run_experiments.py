@@ -28,9 +28,19 @@ if sys.stdout.encoding != 'utf-8':
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import numpy as np
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
+try:
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+    HAS_MATPLOTLIB = True
+except ImportError:
+    HAS_MATPLOTLIB = False
+    class _DummyPlt:
+        def __getattr__(self, name):
+            def _dummy_call(*args, **kwargs):
+                return _DummyPlt()
+            return _dummy_call
+    plt = _DummyPlt()
 from PIL import Image
 import time
 import json

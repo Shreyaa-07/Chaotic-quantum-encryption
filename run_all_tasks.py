@@ -1,15 +1,13 @@
 """
-Comprehensive Task Runner — T3 through T8
-============================================
-Runs all the new task implementations and generates results.
-
-Tasks:
-  T3: Geometric Permutation as SWAP Network
-  T4: AerSimulator + Noise Model
-  T5: Quantum Resource Analysis
-  T6: MCQI RGB Color Image Extension
-  T7: Noise Attack Resilience Tests
-  T8: Comparative Benchmarks
+Comprehensive Quantum & Cryptographic Evaluation Runner
+========================================================
+Executes advanced evaluations and generates research artifacts:
+  - Geometric Permutation SWAP Network Verification
+  - AerSimulator with Realistic Quantum Noise Models
+  - Full Quantum Circuit Resource & Gate-Complexity Analysis
+  - Multi-Channel Quantum Image (MCQI) RGB Color Image Extension
+  - Ciphertext Noise Attack Resilience (Gaussian, Salt & Pepper, Speckle, JPEG)
+  - Comparative Cryptographic Benchmarks against Classical & Chaotic Baselines
 """
 
 import sys
@@ -25,9 +23,19 @@ if sys.stdout.encoding != 'utf-8':
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import numpy as np
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
+try:
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+    HAS_MATPLOTLIB = True
+except ImportError:
+    HAS_MATPLOTLIB = False
+    class _DummyPlt:
+        def __getattr__(self, name):
+            def _dummy_call(*args, **kwargs):
+                return _DummyPlt()
+            return _dummy_call
+    plt = _DummyPlt()
 from PIL import Image
 import json
 import time
@@ -68,9 +76,9 @@ def load_test_images(image_dir: str = 'test_images',
 # ═══════════════════════════════════════════════════════════════════════════════
 
 def run_task_t3():
-    """T3: Build and verify quantum SWAP permutation circuits."""
+    """Build and verify quantum SWAP permutation circuits."""
     print("\n" + "=" * 70)
-    print("TASK T3: Geometric Permutation as Quantum SWAP Network")
+    print("MODULE: Geometric Permutation as Quantum SWAP Network")
     print("=" * 70)
 
     from src.quantum_swap_permutation import (
@@ -118,9 +126,9 @@ def run_task_t3():
 # ═══════════════════════════════════════════════════════════════════════════════
 
 def run_task_t4():
-    """T4: Run quantum circuits with noise models."""
+    """Run quantum circuits with realistic noise models."""
     print("\n" + "=" * 70)
-    print("TASK T4: AerSimulator + Noise Model")
+    print("MODULE: AerSimulator + Quantum Noise Simulation")
     print("=" * 70)
 
     from src.quantum_noise_simulation import (
@@ -216,9 +224,9 @@ def run_task_t4():
 # ═══════════════════════════════════════════════════════════════════════════════
 
 def run_task_t5():
-    """T5: Analyze quantum circuit resources."""
+    """Analyze quantum circuit resources and gate complexity."""
     print("\n" + "=" * 70)
-    print("TASK T5: Quantum Resource Analysis")
+    print("MODULE: Quantum Resource & Circuit Analysis")
     print("=" * 70)
 
     from src.quantum_resource_analysis import generate_resource_report
@@ -280,9 +288,9 @@ def run_task_t5():
 # ═══════════════════════════════════════════════════════════════════════════════
 
 def run_task_t6():
-    """T6: Test RGB color image encryption."""
+    """Test RGB color image encryption with MCQI architecture."""
     print("\n" + "=" * 70)
-    print("TASK T6: MCQI RGB Color Image Extension")
+    print("MODULE: MCQI RGB Color Image Extension")
     print("=" * 70)
 
     from src.rgb_encryption import (
@@ -392,9 +400,9 @@ def run_task_t6():
 # ═══════════════════════════════════════════════════════════════════════════════
 
 def run_task_t7(images: dict):
-    """T7: Test noise attack resilience."""
+    """Test ciphertext noise attack resilience."""
     print("\n" + "=" * 70)
-    print("TASK T7: Noise Attack Resilience Tests")
+    print("MODULE: Noise Attack Resilience Tests")
     print("=" * 70)
 
     from src.noise_attacks import (
@@ -532,9 +540,9 @@ def run_task_t7(images: dict):
 # ═══════════════════════════════════════════════════════════════════════════════
 
 def run_task_t8(images: dict):
-    """T8: Run comparative benchmarks."""
+    """Run comparative cryptographic benchmarks."""
     print("\n" + "=" * 70)
-    print("TASK T8: Comparative Benchmarks")
+    print("MODULE: Comparative Cryptographic Benchmarks")
     print("=" * 70)
 
     from src.benchmarks import (
@@ -642,10 +650,10 @@ def main():
     print(f"ALL TASKS COMPLETE — Total time: {total_time:.1f}s")
     print("=" * 70)
     print("\nOutput directories:")
-    print("  results/quantum/       — T3/T4/T5 quantum analysis results")
-    print("  results/rgb/           — T6 RGB encryption results")
-    print("  results/noise_attacks/ — T7 noise attack results")
-    print("  results/benchmarks/    — T8 comparison benchmarks")
+    print("  results/quantum/       — Quantum circuits, SWAP network & noise models")
+    print("  results/rgb/           — MCQI RGB color encryption results")
+    print("  results/noise_attacks/ — Robustness & noise attack results")
+    print("  results/benchmarks/    — Comparative benchmarks against baseline ciphers")
 
 
 if __name__ == '__main__':

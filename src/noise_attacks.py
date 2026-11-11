@@ -1,6 +1,6 @@
 """
-Noise Attack Resilience Tests — Task T7
-=========================================
+Ciphertext Noise Attack & Robustness Evaluation
+================================================
 Tests the encryption scheme's resilience against various noise attacks
 applied to the ciphertext before decryption.
 

@@ -22,8 +22,7 @@ This is a *classical simulation* of the quantum operations described in the
 paper, identical to the approach the authors used ("simulated and evaluated
 in MATLAB using classical equivalents of quantum gates" — Section V).
 
-Key update (T0 fix):
-  All chaotic key generation now uses the paper-correct maps:
+Chaotic key generation uses the paper-specified maps:
     - 2D-LASM  → PM1_1 qubit key, PM2_1 geometric perm, PM2_2 diffusion key
     - 2D-SLMM  → PM1_2 selection key
 """
@@ -116,11 +115,14 @@ def _generate_all_keys(key: EncryptionKey, height: int, width: int):
     )
 
     # Step 4 (PM2_2): 2D-LASM diffusion keystream (independent LASM instance)
-    diffusion_matrix = generate_diffusion_keystream_lasm(
+    # generate_diffusion_keystream_lasm now returns two independent keystreams:
+    # fwd_matrix (from x_seq) for the forward pass and bwd_matrix (from y_seq)
+    # for the backward pass, eliminating the anti-correlation that degraded entropy.
+    diffusion_fwd, diffusion_bwd = generate_diffusion_keystream_lasm(
         key.lasm2_x0, key.lasm2_y0, key.lasm2_mu, height, width
     )
 
-    return qubit_key, selection_key, diffusion_matrix
+    return qubit_key, selection_key, diffusion_fwd, diffusion_bwd
 
 
 def load_image(path: str, target_size: tuple = None) -> np.ndarray:
@@ -183,7 +185,7 @@ def encrypt(image: np.ndarray, key: EncryptionKey = None,
         print(f"  Generating chaotic keys (2D-LASM + 2D-SLMM)...")
 
     t0 = time.perf_counter()
-    qubit_key, selection_key, diffusion_matrix = _generate_all_keys(key, H, W)
+    qubit_key, selection_key, diffusion_fwd, diffusion_bwd = _generate_all_keys(key, H, W)
     timing['key_generation'] = time.perf_counter() - t0
 
     # ═══════════════════════════════════════════════════════════════════
@@ -219,7 +221,7 @@ def encrypt(image: np.ndarray, key: EncryptionKey = None,
     if verbose:
         print(f"  Phase 2, Step 4: Seed Diffusion (PM2_2)...")
     t0 = time.perf_counter()
-    cipher = seed_diffusion_encrypt(step3_output, diffusion_matrix)
+    cipher = seed_diffusion_encrypt(step3_output, diffusion_fwd, diffusion_bwd)
     timing['step4_seed_diffusion'] = time.perf_counter() - t0
 
     timing['total'] = sum(timing.values())
@@ -262,7 +264,7 @@ def decrypt(cipher: np.ndarray, key: EncryptionKey,
         print(f"  Generating chaotic keys (2D-LASM + 2D-SLMM)...")
 
     t0 = time.perf_counter()
-    qubit_key, selection_key, diffusion_matrix = _generate_all_keys(key, H, W)
+    qubit_key, selection_key, diffusion_fwd, diffusion_bwd = _generate_all_keys(key, H, W)
     timing['key_generation'] = time.perf_counter() - t0
 
     # ═══════════════════════════════════════════════════════════════════
@@ -273,7 +275,7 @@ def decrypt(cipher: np.ndarray, key: EncryptionKey,
     if verbose:
         print(f"  Inverse Phase 2, Step 4: Seed Diffusion...")
     t0 = time.perf_counter()
-    step4_inv = seed_diffusion_decrypt(cipher, diffusion_matrix)
+    step4_inv = seed_diffusion_decrypt(cipher, diffusion_fwd, diffusion_bwd)
     timing['step4_inv'] = time.perf_counter() - t0
 
     # Step 3^{-1}: Inverse Selective Shuffle

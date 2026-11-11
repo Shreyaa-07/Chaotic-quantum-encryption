@@ -1,6 +1,6 @@
 """
-Quantum Resource Analysis — Task T5
-=====================================
+Quantum Resource Analysis
+=========================
 Analyzes the quantum circuit resources (gate counts, depth, qubit counts)
 for all quantum components of the encryption scheme and compares against
 the paper's reported values (Table II, Section V-B).

@@ -1,8 +1,8 @@
 """
-AerSimulator with Noise Models — Task T4
-==========================================
+Quantum Circuit Simulation with Noise Models
+=============================================
 Runs the quantum circuits (NEQR encoding, CNOT cascades, SWAP permutation)
-on Qiskit's AerSimulator with realistic noise models.
+on Qiskit's AerSimulator with realistic quantum noise models.
 
 Noise models applied (standard Qiskit Aer):
   1. Depolarizing noise on single-qubit and two-qubit gates

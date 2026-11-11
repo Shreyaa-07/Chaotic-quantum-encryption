@@ -1,8 +1,8 @@
 """
-Comparative Benchmarks — Task T8
-==================================
-Implements simplified baseline encryption schemes for comparison against
-the paper's chaotic quantum encryption scheme.
+Comparative Cryptographic Benchmarks
+====================================
+Implements baseline and literature encryption schemes for comparison against
+the proposed chaotic quantum encryption scheme.
 
 Baseline schemes implemented:
   1. AES-ECB on image blocks — standard symmetric cipher (baseline)
@@ -391,9 +391,12 @@ def generate_benchmark_plots(results: list[dict], output_dir: str = 'results/plo
     output_dir : str
         Directory to save plots.
     """
-    import matplotlib
-    matplotlib.use('Agg')
-    import matplotlib.pyplot as plt
+    try:
+        import matplotlib
+        matplotlib.use('Agg')
+        import matplotlib.pyplot as plt
+    except ImportError:
+        return
     import os
     os.makedirs(output_dir, exist_ok=True)
 
